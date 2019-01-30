@@ -13,6 +13,16 @@ public class TreeReverse {
      * @return
      */
     public TreeNode reverse(TreeNode root) {
-        return null;
+        if (root == null) return null;
+
+
+        TreeNode tmp = root.getLeftChild();
+        root.setLeftChild(root.getRightChild());
+        root.setRightChild(tmp);
+
+
+        reverse(root.getLeftChild());
+        reverse(root.getRightChild());
+        return root;
     }
 }

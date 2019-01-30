@@ -14,6 +14,31 @@ public class MakeTree {
      * @return
      */
     public TreeNode make(String preOrder, String inOrder) {
-        return null;
+        if (preOrder==null ||
+                inOrder==null ||
+                preOrder.isEmpty() ||
+                inOrder.isEmpty() ||
+                preOrder.length() != inOrder.length()) return null;
+
+        //由先序表达式获得中间节点的值
+        char value = preOrder.charAt(0);
+        int index = 0;
+        while (inOrder.charAt(index) != value) {
+            index++;
+        }
+
+
+        String preOrderLeft = preOrder.substring(1, index+1);
+        String inOrderLeft = inOrder.substring(0, index);
+        TreeNode leftChild = make(preOrderLeft, inOrderLeft);
+
+        String preOrderRight = preOrder.substring(index+1);
+        String inOrderRight = inOrder.substring(index+1);
+        TreeNode rightChild = make(preOrderRight, inOrderRight);
+
+        TreeNode middle = new TreeNode(value);
+        middle.setLeftChild(leftChild);
+        middle.setRightChild(rightChild);
+        return middle;
     }
 }

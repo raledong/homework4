@@ -13,6 +13,13 @@ public class TreeNode {
 
     private TreeNode rightChild;
 
+    public TreeNode(){
+
+    }
+
+    public TreeNode(char letter) {
+        this.setLetter(letter);
+    }
 
     public char getLetter() {
         return letter;
@@ -44,8 +51,8 @@ public class TreeNode {
         if (! (obj instanceof TreeNode)) return false;
         TreeNode other = (TreeNode) obj;
         return other.getLetter() == this.getLetter() &&
-                equals(other.getLeftChild()) &&
-                equals(other.getRightChild());
+                (this.getLeftChild() == null ? other.getLeftChild()==null : this.getLeftChild().equals(other.getLeftChild()))&&
+                (this.getRightChild() == null ? other.getRightChild() == null : this.getRightChild().equals(other.getRightChild()));
     }
 
     @Override

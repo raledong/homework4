@@ -16,9 +16,10 @@ public class Game {
      */
     private int round;
 
+    private static final int WIN_COUNT = 3;
 
     public Game() {
-        board = new int[3][3];
+        board = new int[7][7];
         players = 2;
     }
 
@@ -30,8 +31,11 @@ public class Game {
      * @return
      */
     public boolean play(int playerId, int x, int y) {
-        return false;
-
+        if (x<0 || x>=board.length || y<0 || y>=board.length || board[x][y] != 0) return false;
+        board[x][y] = playerId;
+        //回合数加一
+        round++;
+        return true;
     }
 
     /**
@@ -39,7 +43,7 @@ public class Game {
      * @return
      */
     public int nextPlayerId() {
-        return 0;
+        return round % players + 1;
     }
 
     /**
@@ -48,7 +52,12 @@ public class Game {
      * @return
      */
     public boolean isOver() {
-        return false;
+        for (int i = 0 ; i<board.length ; i++) {
+            for (int j = 0 ; j<board[i].length ; j++) {
+                if (board[i][j] == 0) return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -59,6 +68,76 @@ public class Game {
      * @return
      */
     public boolean win(int playerId, int x, int y) {
+        int count = 1;
+        int startX = x-1;
+        while (startX >= 0 && board[startX][y] == playerId) {
+            count++;
+            startX--;
+        }
+
+        startX = x+1;
+        while (startX < board.length && board[startX][y] == playerId){
+            count++;
+            startX++;
+        }
+        if (count>=WIN_COUNT) {
+            return true;
+        }
+
+        count = 1;
+        int startY = y-1;
+        while(startY >=0 && board[x][startY] == playerId) {
+            count++;
+            startY--;
+        }
+
+        startY = y+1;
+        while(startY <board.length && board[x][startY] == playerId) {
+            count++;
+            startY++;
+        }
+        if (count>=WIN_COUNT) {
+            return true;
+        }
+
+        count = 1;
+        startX = x-1;
+        startY = y-1;
+        while (startX >= 0 && startY >= 0 && board[startX][startY] == playerId) {
+            count++;
+            startX--;
+            startY--;
+        }
+
+        startX = x+1;
+        startY = y+1;
+        while (startX < board.length && startY < board.length && board[startX][startY] == playerId) {
+            count++;
+            startX++;
+            startY++;
+        }
+        if (count>=WIN_COUNT) {
+            return true;
+        }
+
+        count = 1;
+        startX = x-1;
+        startY = y+1;
+        while (startX >= 0 && startY < board.length && board[startX][startY] == playerId) {
+            count++;
+            startX--;
+            startY++;
+        }
+        startX = x+1;
+        startY = y-1;
+        while (startX < board.length && startY >= 0 && board[startX][startY] == playerId){
+            count++;
+            startX++;
+            startY--;
+        }
+        if (count >= WIN_COUNT) {
+            return true;
+        }
         return false;
     }
 
@@ -99,10 +178,11 @@ public class Game {
             //如果当前玩家执子后胜出，则游戏结束
             if (win(id, x, y)) {
                 System.out.println("恭喜" + id + "号玩家获胜，游戏结束");
+                printBoard();
                 break;
             }
-
         }
+
     }
 
     public static void main(String[] args) {

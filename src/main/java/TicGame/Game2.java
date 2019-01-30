@@ -42,6 +42,8 @@ public class Game2 {
     public static void main(String[] args) {
         System.out.println("游戏开始");
         System.out.println("请输入棋盘格式，可输入3，7, 9");
+
+        //用户选择棋盘规格
         Scanner scanner = new Scanner(System.in);
 
         Game game = new Game();
